@@ -6,26 +6,44 @@ public class TFIDFCalculator{
     public static void main(String[] args) {
         try {
             ArrayList<String> text_section=new ArrayList<>();
-            //ArrayList<String> tem_lines=new ArrayList<>();
-            BufferedReader reader = new BufferedReader(new FileReader(args[0]));    //read parameter 0 : docs.txt
-            String line_1;  //the string section
-            String line_2;  //at ?th of the text
+            ArrayList<String> tc_lines_1=new ArrayList<>();
+            ArrayList<Integer> tc_line_2=new ArrayList<>();
+            
+            BufferedReader docs_reader = new BufferedReader(new FileReader(args[0]));    //read parameter 0 : docs.txt
+            BufferedReader tc_reader = new BufferedReader(new FileReader(args[1]));
+            String line_docs;  //the string lines in docs
+            String line_tcs;
             String tem="";
             int docs_order=1;
-            while ((line_1 = reader.readLine()) != null) {
-                line_1=(line_1.replaceAll("[^a-zA-Z\\s]", " ")).replaceAll("\\s+"," "); //regular expression :replace all the non-English char and multiple space to unit space
-                tem=tem+line_1;            
+//spilt the docs per 5 rows and merge them to a text stored in text_section
+            while ((line_docs = docs_reader.readLine()) != null) {
+                line_docs=((line_docs.replaceAll("[^a-zA-Z\\s]", " ")).replaceAll("\\s+"," ")).toLowerCase(); //regular expression :replace all the non-English char and multiple space to unit space
+                tem=tem+line_docs;            
                 if(docs_order%5==0){
                      text_section.add(tem.replaceAll("\\s+"," "));
                      tem="";
                 }
                 docs_order++;
             }
-            System.out.println(text_section.get(0));
-            System.out.println("------------------");
-            System.out.println(text_section.get(1));
-            reader.close();
+// there is one space at the first positon of each text!!
+            // System.out.println(text_section.get(0));
+            // System.out.println("------------------");
+            // System.out.println(text_section.get(1));
+            docs_reader.close();
 
+//read the two rows of tc:
+            line_tcs=(tc_reader.readLine()).replaceAll("\\s+"," ");
+            for(String vocabulary : line_tcs.split(" ")){
+                tc_lines_1.add(vocabulary);
+            }
+            line_tcs=(tc_reader.readLine()).replaceAll("\\s+"," ");
+            for (String order : line_tcs.split(" ")){
+                tc_line_2.add(Integer.valueOf(order));   //.valueOf because arrayList only can accept objects
+            }
+            tc_reader.close();
+            
+    
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
