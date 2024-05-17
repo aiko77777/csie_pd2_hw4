@@ -1,4 +1,4 @@
-trick:
+trick:\n
 calculate_idf中"每個term在所有docs中出現的次數"在testcase中有很多是重複的，特定一個term對每一筆測資來說都是一樣的值。
 e.g.
 "at", and, try, pull, "at", them, "at"
